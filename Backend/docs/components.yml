@@ -1,0 +1,109 @@
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+          format: email
+        user_name:
+          type: string
+      example:
+        id: 5ebac534954b54139806c112
+        email: fake@example.com
+        user_name: fake name
+
+    Order:
+      type: object
+      properties:
+        order_id:
+          type: integer
+        order_num:
+          type: integer
+        order_cost:
+          type: integer
+        time:
+          type: date
+        stuff_id:
+          type : integer
+        branch_id:
+          type: integer
+      example:
+        order_id: 1
+        order_num: 6
+        order_cost: 12000
+        time: 2022-10-10
+        stuff_id: 1
+        branch_id: 1
+
+    Stock:
+      type: object
+      properties:
+        stock_id:
+          type: integer
+        stock_num:
+          type: integer
+        stock_date:
+          type: date
+        event_bool:
+          type: string
+        stuff_id:
+          type: integer
+        branch_id:
+          type: integer
+
+    List:
+      type: object
+      properties:
+        id:
+          type: string
+      example:
+        id: 5ebac534954b54139806c112
+    
+    Error:
+      type: object
+      properties:
+        code:
+          type: number
+        message:
+          type: string
+
+  responses:
+    DuplicateEmail:
+      description: Email already taken
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: 400
+            message: Email already taken
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: 401
+            message: Please authenticate
+    Forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: 403
+            message: Forbidden
+    NotFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            code: 404
+            message: Not found

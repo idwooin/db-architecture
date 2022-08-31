@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+  dbarch-api:
+    container_name: dbarch-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    working_dir: /app
+    volumes:
+      - ./:/app/
+    networks:
+      - dbarch-api
+    depends_on:
+      - dbarch-database
+    #entrypoint: ./wait-for-it.sh mumuseason2-database:5432 
+
+  dbarch-database:
+    container_name: dbarch-database
+    image: mysql:5.7
+    environment:
+      - MYSQL_DATABASE=${DB_DATABASE}
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+      - MYSQL_TCP_PORT= ${DB_PORT}
+    ports:
+      - "56198:56198"
+    volumes:
+      #- mumuseason2-msdata:/var/lib/mysql
+      #- ./init:/docker-entrypoint-initdb.d
+      - dbarch-msdata:/var/lib/mysql
+    networks:
+      - dbarch-api
+
+networks:
+  dbarch-api:
+    driver: bridge
+
+volumes:
+  dbarch-msdata:
